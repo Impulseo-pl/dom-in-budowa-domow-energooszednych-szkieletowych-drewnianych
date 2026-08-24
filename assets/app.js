@@ -149,3 +149,23 @@
     }, { passive: true });
   }
 })();
+
+/* ---- Proces split-screen: krok steruje kadrem ---- */
+(function () {
+  'use strict';
+  var steps = document.querySelectorAll('.flow .fstep');
+  var shots = document.querySelectorAll('.flow-media img');
+  if (!steps.length || !shots.length || !('IntersectionObserver' in window)) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var i = +en.target.dataset.i;
+      steps.forEach(function (s) { s.classList.toggle('on', s === en.target); });
+      shots.forEach(function (img, n) { img.classList.toggle('on', n === i); });
+    });
+  }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+  steps.forEach(function (s) { io.observe(s); });
+  steps[0].classList.add('on');
+})();

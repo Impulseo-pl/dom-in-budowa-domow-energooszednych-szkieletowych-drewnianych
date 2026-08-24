@@ -120,7 +120,13 @@ section{position:relative}
   transition:background .4s var(--ease),box-shadow .4s var(--ease),height .4s var(--ease),border-color .4s;
   border-bottom:1px solid transparent;
 }
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;position:relative}
+.nav-in::after{
+  content:"";position:absolute;left:0;right:0;bottom:-18px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(21,18,15,.14) 12%,rgba(21,18,15,.14) 88%,transparent);
+  opacity:1;transition:opacity .4s var(--ease);
+}
+.nav.on .nav-in::after{opacity:0}
 .nav.on{
   background:rgba(246,243,238,.94);backdrop-filter:blur(18px) saturate(1.4);
   border-bottom-color:var(--line-2);height:64px;
@@ -524,4 +530,84 @@ section{position:relative}
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
   .rv{opacity:1;transform:none}
   .fx{opacity:1;animation:none}
+}
+
+/* ==========================================================================
+   FLOW — proces jako split-screen z przyklejonym kadrem
+   ========================================================================== */
+.flow{
+  position:relative;background:var(--dark);color:#fff;
+  display:grid;grid-template-columns:1fr 1fr;
+}
+.flow-steps{position:relative;padding:clamp(60px,7vw,110px) clamp(28px,5vw,86px) clamp(60px,7vw,110px) clamp(44px,6vw,96px)}
+.flow-steps::before{content:"";position:absolute;left:clamp(24px,3vw,44px);top:0;bottom:0;width:1px;background:rgba(255,255,255,.14)}
+
+.fstep{
+  position:relative;min-height:74vh;
+  display:flex;flex-direction:column;justify-content:center;
+  opacity:.3;transition:opacity .7s var(--ease);
+}
+.fstep.on{opacity:1}
+.fstep::before{
+  content:"";position:absolute;left:calc(clamp(24px,3vw,44px) - clamp(44px,6vw,96px) - 4px);top:50%;
+  width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);
+  transition:background .6s var(--ease),transform .6s var(--ease);
+}
+.fstep.on::before{background:var(--wood-l);transform:scale(1.5)}
+
+.fstep h3{
+  display:flex;align-items:baseline;gap:.34em;
+  font-size:clamp(2rem,3.6vw,3.3rem);font-weight:600;letter-spacing:-.035em;color:#fff;margin-bottom:20px;
+}
+.fstep h3 i{
+  font-style:normal;font-weight:300;color:rgba(255,255,255,.42);
+  font-size:.82em;letter-spacing:0;
+}
+.fstep h3 b{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.fstep p{color:rgba(255,255,255,.68);font-size:1rem;line-height:1.68;max-width:42ch}
+
+.lnk{
+  display:inline-flex;align-items:center;gap:14px;margin-top:26px;
+  font-family:var(--serif);font-size:1.12rem;color:#fff;
+}
+.lnk span{display:block;width:44px;height:1px;background:currentColor;transition:width .45s var(--ease-out)}
+.lnk:hover span{width:74px}
+
+.flow-media{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--dark-2)}
+.flow-media img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.06) brightness(.94);
+  opacity:0;transform:scale(1.04);
+  transition:opacity 1s var(--ease-out),transform 1.6s var(--ease-out);
+}
+.flow-media img.on{opacity:1;transform:none}
+
+.fstep-img{display:none}
+
+/* pionowa etykieta sekcji */
+.vlabel{
+  position:absolute;right:clamp(16px,2vw,30px);top:clamp(80px,10vw,130px);z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:18px;
+  writing-mode:vertical-rl;
+  font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);pointer-events:none;text-shadow:0 1px 8px rgba(0,0,0,.5);
+}
+.vlabel::after{content:"";width:1px;height:clamp(56px,8vw,96px);background:rgba(255,255,255,.22)}
+
+/* nawigacja w duchu studia architektonicznego */
+.nav-in{position:relative}
+.nav-links{gap:clamp(4px,1.4vw,22px)}
+
+@media (max-width:1080px){
+  .flow{grid-template-columns:1fr}
+  .flow-media{display:none}
+  .flow-steps{padding-inline:clamp(38px,7vw,60px) clamp(24px,5vw,40px)}
+  .fstep{min-height:0;padding-block:clamp(34px,5vw,52px);opacity:1}
+  .fstep::before{top:calc(clamp(34px,5vw,52px) + 14px);background:var(--wood-l)}
+  .fstep-img{
+    display:block;width:100%;aspect-ratio:16/10;object-fit:cover;
+    border-radius:var(--r-m);margin-bottom:26px;
+    filter:grayscale(1) contrast(1.06) brightness(.94);
+  }
+  .vlabel{display:none}
 }
