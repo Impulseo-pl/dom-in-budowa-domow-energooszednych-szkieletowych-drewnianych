@@ -465,6 +465,14 @@ section{position:relative}
 .ct-row a{transition:color .25s}
 .ct-row a:hover{color:var(--wood-d)}
 
+/* ---------- Wejscie pierwszego ekranu (bez JS) ---------- */
+@keyframes fxUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.fx{opacity:0;animation:fxUp .8s var(--ease-out) both}
+.fx-d1{animation-delay:.07s}
+.fx-d2{animation-delay:.14s}
+.fx-d3{animation-delay:.21s}
+.fx-d4{animation-delay:.28s}
+
 /* ---------- Reveal ---------- */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease-out),transform .9s var(--ease-out)}
 .rv.in{opacity:1;transform:none}
@@ -515,4 +523,5 @@ section{position:relative}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
   .rv{opacity:1;transform:none}
+  .fx{opacity:1;animation:none}
 }
